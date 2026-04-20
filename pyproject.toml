@@ -1,0 +1,21 @@
+[project]
+name = "tp-backend-messagerie"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Raphaëlle Christmann", email = "raphaelle.christmann@etu.minesparis.psl.eu" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.136.0",
+    "httpie>=3.2.4",
+    "sqlmodel>=0.0.38",
+]
+
+[project.scripts]
+tp-backend-messagerie = "tp_backend_messagerie:main"
+
+[build-system]
+requires = ["uv_build>=0.9.5,<0.10.0"]
+build-backend = "uv_build"
