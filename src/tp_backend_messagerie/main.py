@@ -9,6 +9,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from tp_backend_messagerie.database import init_db
 from tp_backend_messagerie.models import User, Message
+from tp_backend_messagerie.routers import users
 
 @asynccontextmanager
 async def lifespan(app : FastAPI):
@@ -16,4 +17,4 @@ async def lifespan(app : FastAPI):
     yield
 
 app = FastAPI(lifespan = lifespan)
-
+app.include_router(users.router)
