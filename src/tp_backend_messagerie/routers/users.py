@@ -3,10 +3,10 @@ Module qui gère le routeur en charge des utilisateurs, on le sépare de celui d
 """
 
 from fastapi import APIRouter, Depends, HTTPException 
-from sqlmodel import Session, select
+from sqlmodel import Session, select, desc
 from tp_backend_messagerie.database import get_session
-from tp_backend_messagerie.models import User 
-from tp_backend_messagerie.schemas import UserCreate, UserRead
+from tp_backend_messagerie.models import User, Message
+from tp_backend_messagerie.schemas import UserCreate, UserRead, MessageRead
 
 router = APIRouter()
 
@@ -38,3 +38,19 @@ def get_user_by_username(username : str, session : Session = Depends(get_session
     if not user :
         raise HTTPException(status_code = 404, detail = "There is no user with this username.")
     return user
+
+@router.get("/users/{user_id}/inbox", response_model = list[MessageRead])
+def get_inbox_by_id(user_id : int, session : Session = Depends(get_session)):
+    user_exists = session.get(User, user_id)
+    if not user_exists :
+        raise HTTPException(status_code = 404, detail = "The user does not exists.")
+    all_messages_received = session.exec(select(Message).where(Message.receiver_id == user_id).order_by(desc(Message.sent_at))).all()
+    return all_messages_received
+
+@router.get("/users/{user_id}/sent", response_model = list[MessageRead])
+def get_messages_sent_by_id(user_id : int, session : Session = Depends(get_session)):
+    user_exists = session.get(User, user_id)
+    if not user_exists :
+        raise HTTPException(status_code = 404, detail = "The user does not exists.")
+    all_messages_sent = session.exec(select(Message).where(Message.sender_id == user_id).order_by(desc(Message.sent_at))).all()
+    return all_messages_sent
