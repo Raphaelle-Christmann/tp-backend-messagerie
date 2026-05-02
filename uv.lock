@@ -967,6 +967,7 @@ name = "tp-backend-messagerie"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "email-validator" },
     { name = "fastapi", extra = ["standard"] },
     { name = "httpie" },
     { name = "sqlmodel" },
@@ -974,6 +975,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "email-validator", specifier = ">=2.3.0" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.136.0" },
     { name = "httpie", specifier = ">=3.2.4" },
     { name = "sqlmodel", specifier = ">=0.0.38" },

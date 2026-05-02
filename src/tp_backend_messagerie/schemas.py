@@ -5,10 +5,11 @@ Module qui gère ce que l'API accepte et renvoie.
 
 from sqlmodel import SQLModel, Field
 import datetime
+from pydantic import EmailStr
 
 class UserCreate(SQLModel):
     username : str
-    email : str
+    email : EmailStr
 
 class UserRead(SQLModel):
     id : int
