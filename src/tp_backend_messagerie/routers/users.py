@@ -40,10 +40,12 @@ def get_user_by_username(username : str, session : Session = Depends(get_session
     return user
 
 @router.get("/users/{user_id}/inbox", response_model = list[MessageRead])
-def get_inbox_by_id(user_id : int, session : Session = Depends(get_session)):
+def get_inbox_by_id(user_id : int, unread_only : bool = False, session : Session = Depends(get_session)):
     user_exists = session.get(User, user_id)
     if not user_exists :
         raise HTTPException(status_code = 404, detail = "The user does not exists.")
+    if unread_only :
+        return session.exec(select(Message).where(Message.receiver_id == user_id).where(Message.is_read == False).order_by(desc(Message.sent_at))).all()
     all_messages_received = session.exec(select(Message).where(Message.receiver_id == user_id).order_by(desc(Message.sent_at))).all()
     return all_messages_received
 
