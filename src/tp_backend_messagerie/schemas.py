@@ -1,9 +1,9 @@
 """ 
-Module de gestion de ce que l'API accepte et renvoie.
+Module qui gère ce que l'API accepte et renvoie.
 
 """
 
-from sqlmodel import SQLModel
+from sqlmodel import SQLModel, Field
 import datetime
 
 class UserCreate(SQLModel):
@@ -18,8 +18,8 @@ class UserRead(SQLModel):
 class MessageCreate(SQLModel):
     sender_id : int
     receiver_id : int
-    subject : str 
-    body : str 
+    subject : str = Field(min_length = 1)
+    body : str = Field(min_length = 1)
 
 class MessageRead(SQLModel):
     id : int 
@@ -28,4 +28,4 @@ class MessageRead(SQLModel):
     sent_at : datetime.datetime
     is_read : bool
     subject : str 
-    body : str 
+    body : str
