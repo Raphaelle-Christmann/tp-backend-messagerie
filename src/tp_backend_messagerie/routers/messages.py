@@ -42,3 +42,12 @@ def message_is_read(message_id : int, session : Session = Depends(get_session)):
     session.commit()
     session.refresh(message)
     return message
+
+@router.delete("/messages/{message_id}")
+def delete_message(message_id : int, session : Session = Depends(get_session)):
+    message = session.get(Message, message_id)
+    if not message:
+        raise HTTPException(status_code=404, detail="The message you want to delete does not exists.")
+    session.delete(message)
+    session.commit()
+    return {"message": "Message deleted successfully"}
