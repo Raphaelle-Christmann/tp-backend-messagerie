@@ -1,3 +1,5 @@
+Lancement de l'application dans un terminal VSCode : fastapi dev src/tp_backend_messagerie/main.py
+
 ## Question 1 : En quoi HTTP convient-il bien à cette application ?
 
 **Réponse :** Toutes les actions que l'on réalise dans la messagerie (créer un utilisateur, envoyer/supprimer un message, etc) sont des actions simples, avec un aspect binaire : l'action peut-être réalisée, ou non. Ceci fonctionne bien avec le modèle requête/réponse de HTTP. De plus, les codes de statut HTTP (404, 400, 201, etc) correspondent bien aux erreurs que l'on peut rencontrer dans notre messagerie. Enfin, autre point intéressant dans le cadre de la messagerie : les actions réalisées sont indépendantes, elles ne doivent pas être réalisées dans un certain ordre (d'un point de vue logique, il est certes mieux de crééer l'utilisateur avant qu'il envoie un message... mais cela ne bloque pas l'application et son fonctionnement si on fait l'inverse), ce qui là aussi marche bien avec le fonctionnement de HTTP, qui est sans état (chaque requête contient toutes les informations nécessaires, pas besoin de garder en mémoire celles d'avant).
